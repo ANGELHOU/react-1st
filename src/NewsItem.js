@@ -3,6 +3,8 @@ import React from 'react';
 import './css/NewsItem.css';
 import url from 'url';
 import moment from 'moment';
+import vote from './img/grayarrow2x.gif'
+import _ from 'lodash'
 
 
 var NewsItem = React.createClass({
@@ -23,22 +25,41 @@ var NewsItem = React.createClass({
       </div>
         );
   },
-  getTitle: function(){
+  getRank: function(){
+    return(
+        <div className="newsItem-rank">
+            {this.props.rank}.
+        </div>)
+  },
+  getVote:function(){
+    return(<div className="newsItem-vote">
+            <a href={'https://news.ycombinator.com/vote?for='+this.props.item.id+'&dir=up&whence=news'}>
+                <img src={vote} width="10" alt='pic here'/>
+            </a>
+        </div>)
+  },
+  getTitle: function () {
     return (
-        <div className="newsItem-title">
-        {this.props.item.title}
-        </div>
-        );
+      <div className="newsItem-title">
+        <a className="newsItem-titleLink" href={this.props.item.url}>{this.props.item.title}</a>
+        <span className="newsItem-domain">
+          ({this.getDomain()})
+        </span>
+      </div>
+    );
   },
   render: function() {
     return (
       <div className="newsItem">
-        {this.getTitle()}
-        {this.getSubtext()}
-        <span className="newsItem-domain">({this.getDomain()})</span>
+        {this.getRank()}
+        {this.getVote()}
+        <div className="newsItem-itemText">
+            {this.getTitle()}
+            {this.getSubtext()}
+        </div>
       </div>
     );
   }
 });
 
-module.exports = {NewsItem};
+export default NewsItem;
